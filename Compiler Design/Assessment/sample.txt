@@ -1,0 +1,11 @@
+Class B{
+	s:String <-"Hello";
+	g(y:String):Int{
+		y.concat(s)
+	};
+	--Any characters
+	-- the bnext
+	f(x:Int):Int{
+	x+1;
+	};
+};

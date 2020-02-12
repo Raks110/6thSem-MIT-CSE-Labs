@@ -1,0 +1,15 @@
+09:11:06 **** Incremental Build of configuration Debug for project Mympi ****
+make all 
+Building file: ../l1q1.c
+Invoking: GCC C Compiler
+gcc -I/usr/include/mpich -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"l1q1.d" -MT"l1q1.d" -o "l1q1.o" "../l1q1.c"
+../l1q1.c:4:6: warning: return type of ‘main’ is not ‘int’ [-Wmain]
+ void main(int argc, char** argv){
+      ^
+Finished building: ../l1q1.c
+ 
+Building target: Mympi
+Invoking: GCC C Linker
+gcc -L/usr/lib/mpich/lib -o "Mympi"  ./l1q1.o   -lmpi
+Finished building target: Mympi
+ 

@@ -1,0 +1,13 @@
+14:34:21 **** Incremental Build of configuration Debug for project lab1q1 ****
+make all 
+Building target: lab1q1
+Invoking: GCC C Linker
+gcc -L/usr/lib/mpich/lib -o "lab1q1"  ./q1.o   -lmpi
+/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o: In function `_start':
+(.text+0x20): undefined reference to `main'
+makefile:29: recipe for target 'lab1q1' failed
+collect2: error: ld returned 1 exit status
+make: *** [lab1q1] Error 1
+
+14:34:21 Build Finished (took 182ms)
+

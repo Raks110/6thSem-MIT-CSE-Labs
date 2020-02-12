@@ -1,0 +1,16 @@
+#include<bim>
+int main(){
+    printf("Hello World");
+    int rope(a,b,c);
+    int a;
+    float x;
+    x = 10.0;
+    if(1 == 100){
+
+        printf("Something is terribly wrong.");
+    }
+    else{
+        printf("Thank God!!");
+    }
+    return 0;
+}
