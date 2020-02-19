@@ -23,6 +23,8 @@ struct token{
 
 typedef struct token TOKEN;
 
+TOKEN token;
+
 void set_token(char *l, unsigned int cols, unsigned int row, unsigned int type, TOKEN *temp){
 
     strcpy(temp->lexeme, l);
@@ -62,6 +64,45 @@ void print_token(TOKEN a){
             break;
     }
 
+    //printf("<%s, %d, %d, %s>", a.lexeme, a.row, a.column, a1)
+
+    strcpy(token.lexeme,a.lexeme);
+    token.row = a.row;
+    token.column = a.column;
+    token.type = a.type;
+}
+
+void print_token_to_screen(TOKEN a){
+
+    char a1[100];
+    switch(a.type){
+
+        case 0:
+            strcpy(a1, "KEYWORD");
+            break;
+        case 1:
+            strcpy(a1, "IDENTIFIER");
+            break;
+        case 2:
+            strcpy(a1, "RELOP");
+            break;
+        case 3:
+            strcpy(a1, "AOP");
+            break;
+        case 4:
+            strcpy(a1, "LOP");
+            break;
+        case 5:
+            strcpy(a1, "SPECIAL CHAR");
+            break;
+        case 6:
+            strcpy(a1, "NUMBER");
+            break;
+        case 7:
+            strcpy(a1, "LITERAL");
+            break;
+    }
+
     printf("<%s, %d, %d, %s>", a.lexeme, a.row, a.column, a1);
 }
 
@@ -71,6 +112,79 @@ void revert(FILE *fp){
 
         printf("E101: Error encountered. Invalidate output.");
     }
+}
+
+void removePre(){
+    FILE *fa, *fb;
+    int ca, cb;
+
+    fa = fopen("./samples/sample_test1.txt", "r");
+    fb = fopen("./samples/sample_test2.txt", "w");
+
+    ca = getc(fa);
+    int flag = 0;
+
+    while(ca != EOF){
+
+        if(ca == '#' && !flag){
+
+            cb = getc(fa);
+
+            while(cb != '\n'){
+                cb = getc(fa);
+            }
+
+            ca = getc(fa);
+            continue;
+        }
+        else if(ca != '/'){
+
+            flag = 1;
+        }
+
+        putc(ca, fb);
+        ca = getc(fa);
+    }
+
+    fclose(fa);
+    fclose(fb);
+}
+
+
+void removeComments() {
+    FILE *fa,*fb;
+    int ca,cb;
+    fa = fopen("./samples/sample2.txt","r");
+    fb = fopen("./samples/sample_test1.txt","w");
+    ca = getc(fa);
+    while (ca != EOF) {
+        if (ca == '/') {
+            cb = getc(fa);
+            if (cb == '/') {
+                while (ca != '\n')
+                    ca = getc(fa);
+            }
+            else if (cb == '*') {
+                do {
+                    while(ca != '*')
+                        ca = getc(fa);
+                    ca = getc(fa);
+                } while(ca != '/');
+                ca = getc(fa);
+                // if (ca == '\n')
+                //     ca = getc(fa);   
+            }
+            else {
+                putc(ca,fb);
+                putc(cb,fb);
+            }
+        }
+        else
+            putc(ca,fb);
+            ca = getc(fa);
+    }
+    fclose(fa);
+    fclose(fb);
 }
 
 //Ignores comments and new lines
@@ -471,7 +585,7 @@ NODE* check_word(FILE *fp, int *line, int *column, NODE* table){
     return table;
 }
 
-NODE* get_token_stream(FILE *fp, int *lines, int *columns, NODE* table){
+NODE* get_token_stream(FILE *fp, int *lines, int *columns, NODE* table, TOKEN **token_in){
 
     char c = fgetc(fp);
 
@@ -507,7 +621,37 @@ NODE* get_token_stream(FILE *fp, int *lines, int *columns, NODE* table){
             check_special(fp, lines, columns);
         }
 
+        strcpy((*token_in)->lexeme, token.lexeme);
+        (*token_in)->row = token.row;
+        (*token_in)->column = token.column;
+        (*token_in)->type = token.type;
+
         return table;
+}
+
+TOKEN get_stream(int *row, int *col, int *lines, int *columns, FILE* fp, NODE** table){
+
+    TOKEN *token = (TOKEN*)malloc(sizeof(TOKEN));
+    char c = fgetc(fp);
+
+    while(c!=EOF){
+
+        revert(fp);
+
+        *table = get_token_stream(fp, lines, columns, *table, &token);
+            
+        if(*row != token->row || *col != token->column){
+
+            *row = token->row;
+            *col = token->column;
+
+            return *token;
+        }
+        else{
+
+            c = fgetc(fp);
+        }
+    }
 }
 
 #endif //COMPILER_DESIGN_LEXICAL_HELPER_H

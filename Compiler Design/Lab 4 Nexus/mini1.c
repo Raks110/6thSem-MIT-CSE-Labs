@@ -58,7 +58,7 @@ void S(){
 			//If the input begins with a, then only a$ is acceptable.
 			char temp = read_next();
 			if(temp == '$'){
-
+				
 				printf("S: Successfully Read.\n");
 				return;
 			}

@@ -80,17 +80,17 @@ int main(){
 	removePre();
 
 	FILE *fp = fopen("./samples/sample_test2.txt","r");
-	int l=0,r=0;
+	
+	char c = fgetc(fp);
+    NODE *table = NULL;
 
-	get_token_stream(fp);
+    int lines = 0, columns = 1;
 
-    /*NODE* table = NULL;
-    char args[][10] = {"Hello", "Bellow"};
+    while(c != EOF){
 
-	ENTRY entry = create_entry("abs",2,"int", args, 1);
-	table = insert_into_list(table, entry);
-
-    ENTRY entry2 = create_entry("backpack",2,"float", args, 1);
-	table = insert_into_list(table, entry2);
-	print_list(table);*/
+    	revert(fp);
+		table = get_token_stream(fp, &lines, &columns, table);
+		getc(stdin);
+    	c = fgetc(fp);
+	}
 }

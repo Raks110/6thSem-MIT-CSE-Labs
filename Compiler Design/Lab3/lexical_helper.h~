@@ -471,43 +471,68 @@ NODE* check_word(FILE *fp, int *line, int *column, NODE* table){
     return table;
 }
 
-NODE* get_token_stream(FILE *fp, int *lines, int *columns, NODE* table){
+void get_token_stream(FILE *fp){
 
     char c = fgetc(fp);
+    NODE *table = NULL;
+
+    int lines = 0, columns = 1;
+
+    while(c != EOF){
 
         if(c == '\n'){
             lines++;
             columns=0;
+            c = fgetc(fp);
+            continue;
         }
         if(c == ' '){
             columns++;
+            c = fgetc(fp);
+            continue;
         }
         if(isalpha(c) || c == '_'){
-            table = check_word(fp, lines, columns, table);
+            table = check_word(fp, &lines, &columns, table);
+            c = fgetc(fp);
+            continue;
         }
         if(isdigit(c)){
-            check_number(fp, lines, columns);
+            check_number(fp, &lines, &columns);
+            c = fgetc(fp);
+            continue;
         }
         if(c == '>' || c == '<' || c == '='){
 
-            check_relational(fp, lines, columns);
+            check_relational(fp, &lines, &columns);
+            c = fgetc(fp);
+            continue;
         }
         if(c == '"'){
-            check_literal(fp, lines, columns);
+            check_literal(fp, &lines, &columns);
+            c = fgetc(fp);
+            continue;
         }
         if(c == '&' || c == '!' || c == '|'){
-            check_logical(fp, lines, columns);
+            check_logical(fp, &lines, &columns);
+            c = fgetc(fp);
+            continue;
         }
         if(c == '+' || c == '*' || c == '/' || c == '%' || c == '-'){
-            check_arithmetic(fp, lines, columns);
+            check_arithmetic(fp, &lines, &columns);
+            c = fgetc(fp);
+            continue;
         }
         if(c == '/')
-            ignore_fillers(fp, lines, columns);
+            ignore_fillers(fp, &lines, &columns);
         else{
-            check_special(fp, lines, columns);
+            check_special(fp, &lines, &columns);
+            c = fgetc(fp);
+            continue;
         }
+    }
 
-        return table;
+    printf("\nSymbol Table:\n\n");
+    print_list(table);
 }
 
 #endif //COMPILER_DESIGN_LEXICAL_HELPER_H
