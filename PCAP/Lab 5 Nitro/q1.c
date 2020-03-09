@@ -11,9 +11,10 @@ int main(){
 	int i;
 	int LIST_SIZE;
 
-	printf("%s: ", "Enter List Size: ");
-	scanf("%d", &LIST_SIZE);
+	//printf("%s: ", "Enter List Size: ");
+	//scanf("%d", &LIST_SIZE);
 
+	LIST_SIZE = 10000;
 	// Initialize the vectors
 
 	int *A = (int*)malloc(sizeof(int) * LIST_SIZE);
@@ -95,7 +96,7 @@ int main(){
 	ret = clEnqueueReadBuffer(command_queue, c_mem_obj, CL_TRUE, 0, LIST_SIZE * sizeof(int), C, 0, NULL, NULL);
 
 	for(int i=0;i<LIST_SIZE;i++){
-		printf("%d + %d = %d\n", A[i], B[i], C[i]);
+		printf("%d ", C[i]);
 	}
 
 	//Clean Up
