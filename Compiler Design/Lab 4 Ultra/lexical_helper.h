@@ -590,11 +590,11 @@ NODE* get_token_stream(FILE *fp, int *lines, int *columns, NODE* table, TOKEN **
     char c = fgetc(fp);
 
         if(c == '\n'){
-            lines++;
-            columns=0;
+            (*lines)++;
+            (*columns)=0;
         }
         if(c == ' '){
-            columns++;
+            (*columns)++;
         }
         if(isalpha(c) || c == '_'){
             table = check_word(fp, lines, columns, table);
