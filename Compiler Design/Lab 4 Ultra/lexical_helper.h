@@ -172,7 +172,7 @@ void removeComments() {
                 } while(ca != '/');
                 ca = getc(fa);
                 // if (ca == '\n')
-                //     ca = getc(fa);   
+                //     ca = getc(fa);
             }
             else {
                 putc(ca,fb);
@@ -498,7 +498,7 @@ ENTRY check_identifier(FILE *fp, char buf[]){
 
     char c = fgetc(fcopy);
     if(c == ' '){
-        c = fgetc(fcopy); 
+        c = fgetc(fcopy);
     }
 
     char arg[100];
@@ -512,7 +512,7 @@ ENTRY check_identifier(FILE *fp, char buf[]){
         while(isalpha(temp) || isdigit(temp) || temp == ' ' || temp == ','){
 
             if(temp == ','){
-                
+
                 arg[i++] = '\0';
                 strcpy(args[num], arg);
                 i = 0;
@@ -523,7 +523,7 @@ ENTRY check_identifier(FILE *fp, char buf[]){
                 arg[i++] = temp;
             }
             temp = fgetc(fcopy);
-            
+
             if(temp == ')'){
 
                 if(i != 0){
@@ -639,7 +639,7 @@ TOKEN get_stream(int *row, int *col, int *lines, int *columns, FILE* fp, NODE** 
         revert(fp);
 
         *table = get_token_stream(fp, lines, columns, *table, &token);
-            
+
         if(*row != token->row || *col != token->column){
 
             *row = token->row;
